@@ -60,11 +60,15 @@ export async function listXeroProfitAndLoss(
   paymentsOnly?: boolean,
 ): Promise<XeroClientResponse<ReportWithRow>> {
   try {
+    // NOTE: fetchProfitAndLoss is positional — standardLayout MUST be passed
+    // before paymentsOnly. Omitting it slots paymentsOnly into standardLayout,
+    // silently dropping the cash-basis flag so Xero always returns accrual.
     const profitAndLoss = await fetchProfitAndLoss(
       fromDate,
       toDate,
       periods,
       timeframe,
+      standardLayout,
       paymentsOnly,
     );
 
